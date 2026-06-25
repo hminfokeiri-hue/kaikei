@@ -1422,7 +1422,12 @@ function renderTransactions() {
       + '<td class="td-num">' + fmt(t.excl !== undefined ? t.excl : t.amount) + '</td>'
       + '<td class="td-num" style="color:var(--yellow)">' + fmt(t.tax || 0) + '</td>'
       + '<td>' + rateBadge + '</td>'
-      + '<td class="print-hide"><button class="btn btn-danger btn-sm" onclick="deleteTx(\'' + t.id + '\')">削除</button></td>';
+      + '<td class="print-hide"><button class="btn btn-danger btn-sm" data-del-tx="' + t.id + '">削除</button></td>';
+    // 削除ボタンにイベントを直接追加
+    var delBtn2 = tr.querySelector('[data-del-tx]');
+    if (delBtn2) {
+      delBtn2.addEventListener('click', (function(id){ return function(){ deleteTx(id); }; })(t.id));
+    }
     tbody.appendChild(tr);
   });
 }
@@ -2211,13 +2216,21 @@ function renderJournal() {
     var card=document.createElement('div');card.className='jcard';
     var taxNote=j.dTax?('<span class="jtax"> \u7a0e'+fmt(j.dTax)+'</span>'):'';
     var autoBadge=j.src==='auto'?'<span class="jautobadge">\u81ea\u52d5</span>':'';
-    card.innerHTML=
-      '<div class="jcol-date">'+j.date+'</div>'
-      +'<div class="jcol-debit"><span class="jacc">'+jName(j.dAcc)+'</span>'+taxNote+'<span class="jamt-d">'+fmt(j.dAmt)+'</span></div>'
-      +'<div class="jcol-credit"><span class="jacc">'+jName(j.cAcc)+'</span><span class="jamt-c">'+fmt(j.cAmt)+'</span></div>'
-      +'<div class="jcol-memo">'+(j.memo||'\u2014')+' '+autoBadge+'</div>'
-      +'<div class="jcol-del"><button class="btn btn-danger btn-sm print-hide" onclick="delJournal(\''+j.id+'\')">'
-      +'\u524a\u9664</button></div>';
+
+    var d1=document.createElement('div');d1.className='jcol-date';d1.textContent=j.date;
+    var d2=document.createElement('div');d2.className='jcol-debit';
+    d2.innerHTML='<span class="jacc">'+jName(j.dAcc)+'</span>'+taxNote+'<span class="jamt-d">'+fmt(j.dAmt)+'</span>';
+    var d3=document.createElement('div');d3.className='jcol-credit';
+    d3.innerHTML='<span class="jacc">'+jName(j.cAcc)+'</span><span class="jamt-c">'+fmt(j.cAmt)+'</span>';
+    var d4=document.createElement('div');d4.className='jcol-memo';
+    d4.innerHTML=(j.memo||'\u2014')+' '+autoBadge;
+    var d5=document.createElement('div');d5.className='jcol-del';
+    var db=document.createElement('button');db.className='btn btn-danger btn-sm print-hide';
+    db.textContent='\u524a\u9664';
+    db.addEventListener('click',(function(id){return function(){delJournal(id);};})(j.id));
+    d5.appendChild(db);
+
+    card.appendChild(d1);card.appendChild(d2);card.appendChild(d3);card.appendChild(d4);card.appendChild(d5);
     cont.appendChild(card);
   });
 }
@@ -2461,6 +2474,18 @@ function renderMonthlyBS() {
   html += '</tbody></table></div>';
   document.getElementById('monthlyBsContent').innerHTML = html;
 }
+
+// イベント委任で削除処理（GitHub Pages対応）
+document.body.addEventListener('click', function(e) {
+  var btn = e.target.closest('button');
+  if (!btn) return;
+  var txId = btn.getAttribute('data-del-tx');
+  if (txId) { deleteTx(txId); return; }
+  var jId = btn.getAttribute('data-del-journal');
+  if (jId) { delJournal(jId); return; }
+  var jId2 = btn.getAttribute('data-jdel');
+  if (jId2) { delJournal(jId2); return; }
+});
 
 // グローバルに公開（onclickから呼び出せるように）
 window.deleteTx = deleteTx;
