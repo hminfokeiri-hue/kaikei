@@ -314,8 +314,11 @@ td{padding:9px 14px;font-size:13px;}
     <div class="lock-sub">🏢 アルファクリーン米子 専用</div>
     <div class="lock-icon">🔐</div>
     <div class="lock-label">パスワード</div>
-    <input class="lock-input" id="lockInput" type="password" placeholder="••••••••">
-    <button class="lock-btn" id="loginBtn">ログイン</button>
+    <form id="loginForm" autocomplete="on">
+      <input id="loginEmail" name="username" type="email" autocomplete="username" hidden>
+      <input class="lock-input" id="lockInput" name="password" type="password" autocomplete="current-password" placeholder="••••••••">
+      <button class="lock-btn" id="loginBtn" type="submit">ログイン</button>
+    </form>
     <div class="lock-error" id="lockError"></div>
     <div class="fb-setup">
       <p>☁️ Firebase設定（初回のみ）</p>
@@ -886,7 +889,7 @@ var SESSION_KEY = 'kaikei_session';
 var STORAGE_KEY = 'kaikei_v4';
 var FB_KEY = 'kaikei_fb';
 var DEFAULT_FB_URL = 'https://a-clean-yonago-keiri-default-rtdb.asia-southeast1.firebasedatabase.app';
-var DEFAULT_PW = 'ayonago';
+/* ログインPWはFirebase Authに移行（ソースから削除） */
 var ENCRYPT_KEY = '260625';
 
 // ── 暗号化 ──
@@ -912,7 +915,7 @@ function decrypt(str) {
 }
 
 // ── 認証 ──
-function getPw() { return localStorage.getItem(PW_KEY) || DEFAULT_PW; }
+function getPw() { return localStorage.getItem(PW_KEY) || ''; }
 function isLoggedIn() { return sessionStorage.getItem(SESSION_KEY) === '1'; }
 
 function doLogin() {
@@ -1170,16 +1173,13 @@ function calcTax(amount, rate) {
 function init() {
   load();
 
-  if (isLoggedIn()) {
-    document.getElementById('lockScreen').classList.add('hidden');
-    initFirebase();
-  } else {
-    var savedUrl = getFbUrl();
-    if (savedUrl) {
-      document.getElementById('fbUrlInput').value = savedUrl;
-      document.getElementById('fbSetupMsg').textContent = '✅ Firebase設定済み（自動接続）';
-    }
-    setTimeout(function() { document.getElementById('lockInput').focus(); }, 100);
+  // ログイン判定・ロック解除・同期開始は kaikei-auth.js（Firebase Auth）が担当
+  var savedUrl = getFbUrl();
+  if (savedUrl) {
+    var _fu = document.getElementById('fbUrlInput');
+    if (_fu) _fu.value = savedUrl;
+    var _fm = document.getElementById('fbSetupMsg');
+    if (_fm) _fm.textContent = '✅ Firebase設定済み（自動接続）';
   }
 
   // 年度セレクト（過去5年～現在+2年）
@@ -1202,8 +1202,7 @@ function init() {
 // ── イベントバインド ──
 function bindEvents() {
   // ログイン
-  safeOn('loginBtn','click',doLogin);
-  document.getElementById('lockInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') doLogin(); });
+  // ログイン発火は kaikei-auth.js（loginFormのsubmit）が担当
 
   // Firebase setup on lock screen
   document.getElementById('fbSaveBtn').addEventListener('click', function() {
@@ -1214,7 +1213,7 @@ function bindEvents() {
   });
 
   // ヘッダー
-  safeOn('logoutBtn','click',doLogout);
+  // ログアウトは kaikei-auth.js が担当
   safeOn('resetModalBtn','click',function(){
     document.getElementById('resetPwInput').value='';
     document.getElementById('resetConfirmCheck').checked=false;
@@ -3218,8 +3217,26 @@ function execReset() {
   });
 }
 
+window.initFirebase = initFirebase;
+window.kaikeiStopSync = function(){ if (pollTimer) clearInterval(pollTimer); };
 init();
 })();
+</script>
+<script type="module">
+  import { setupKaikeiAuth } from './kaikei-auth.js';
+  setupKaikeiAuth({
+    config: {
+      apiKey: "AIzaSyB5VxVt2HmbH7SVpLUzyCYflSAEkg3AqqQ",
+      authDomain: "kaikei-login.firebaseapp.com",
+      projectId: "kaikei-login",
+      storageBucket: "kaikei-login.firebasestorage.app",
+      messagingSenderId: "890962616772",
+      appId: "1:890962616772:web:789a933f2fd03c37e14491"
+    },
+    email: "hm.info.keiri@gmail.com",
+    onLogin: function(){ if (window.initFirebase) window.initFirebase(); },
+    onLogout: function(){ if (window.kaikeiStopSync) window.kaikeiStopSync(); }
+  });
 </script>
 </body>
 </html>
