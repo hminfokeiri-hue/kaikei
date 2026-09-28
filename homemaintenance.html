@@ -464,7 +464,7 @@ tr.jumprow:hover td{background:#f5f8ff;}
     <div class="fg"><label>摘要</label><input type="text" id="txEditNote"></div>
     <div class="form-row" style="grid-template-columns:1fr 1fr;gap:10px">
       <div class="fg"><label>税込金額（円）</label><input type="number" id="txEditAmount" min="0"></div>
-      <div class="fg"><label>消費税率</label><select id="txEditTaxRate"><option value="10">10%</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
+      <div class="fg"><label>消費税率</label><select id="txEditTaxRate"><option value="10">10%</option><option value="10-80">10%・控除80%（インボイスなし〜2026/9）</option><option value="10-50">10%・控除50%（インボイスなし2026/10〜）</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
     </div>
     <div class="fg"><label>支払方法</label><select id="txEditPay"><option value="b_cash">現金</option><option value="b_bank">普通預金</option><option value="b_cc">クレジットカード</option><option value="b_ap">買掛金</option><option value="b_unpaid">未払金</option><option value="b_ar">売掛金</option></select></div>
     <div class="modal-actions">
@@ -489,7 +489,7 @@ tr.jumprow:hover td{background:#f5f8ff;}
         <div class="fg"><label>借方科目</label><select id="jEditDebitAcc"></select></div>
         <div class="fg" id="jEditDebitSubWrap" style="display:none"><label>補助科目</label><select id="jEditDebitSub"></select></div>
         <div class="fg"><label>金額（税込）</label><input type="number" id="jEditDebitAmt" min="0"></div>
-        <div class="fg"><label>消費税率</label><select id="jEditTaxRate"><option value="10">10%</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
+        <div class="fg"><label>消費税率</label><select id="jEditTaxRate"><option value="10">10%</option><option value="10-80">10%・控除80%（インボイスなし〜2026/9）</option><option value="10-50">10%・控除50%（インボイスなし2026/10〜）</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
       </div>
       <div class="jside"><div class="jside-title jside-c">貸方（Credit）</div>
         <div class="fg"><label>貸方科目</label><select id="jEditCreditAcc"></select></div>
@@ -512,7 +512,7 @@ tr.jumprow:hover td{background:#f5f8ff;}
     <div class="disclaimer">
       CSVファイルの形式：<b>日付,種別,科目名,摘要,税込金額,消費税率</b><br>
       例：2026/06/01,支出,旅費交通費,電車代,1100,10<br>
-      種別は「収入」または「支出」、税率は10・8・0
+      種別は「収入」または「支出」、税率は10・8・0（インボイスなしの経過措置は 10-80・10-50）
     </div>
     <div style="background:var(--paper-alt);border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px">
       <b>💡 ヒント：</b>Excelで上記の列順に並べて「名前をつけて保存」→「CSV」で保存してください
@@ -603,7 +603,7 @@ tr.jumprow:hover td{background:#f5f8ff;}
     <div class="modal-title">📓 仕訳CSVから一括取込</div>
     <div class="disclaimer">
       列の順番：<b>日付 , 借方科目 , 貸方科目 , 税込金額 , 消費税率 , 摘要</b>（任意で 7列目：借方補助科目、8列目：貸方補助科目）<br>
-      例：2026-07-10,当座預金,売掛金,342800,0,振込受入<br>
+      例：2026-07-10,当座預金,売掛金,342800,0,振込受入<br>・消費税率は 10・8・0。インボイス（登録番号）なしの経過措置は 10-80（〜2026/9）・10-50（2026/10〜）<br>
       ・科目名は「科目管理」の名称と完全に一致させてください（一致しない行があると取込できません）<br>
       ・文字コードは UTF-8（Excelなら「CSV UTF-8(コンマ区切り)」で保存）
     </div>
@@ -772,13 +772,13 @@ tr.jumprow:hover td{background:#f5f8ff;}
   </div>
   <div class="form-card print-hide">
     <div class="form-title">新規入力</div>
-    <div class="form-row" style="grid-template-columns:112px 96px 1fr 1fr 100px 82px 96px 70px">
+    <div class="form-row" style="grid-template-columns:112px 96px 1fr 1fr 100px 128px 96px 70px">
       <div class="fg"><label>日付</label><input type="date" id="txDate"></div>
       <div class="fg"><label>種別</label><select id="txType"><option value="income">収入</option><option value="expense">支出</option></select></div>
       <div class="fg"><label>勘定科目</label><select id="txCategory"></select></div>
       <div class="fg"><label>摘要</label><input type="text" id="txNote" placeholder="例：〇〇様 作業代"></div>
       <div class="fg"><label>税込金額（円）</label><input type="number" id="txAmount" placeholder="0" min="0"></div>
-      <div class="fg"><label>消費税率</label><select id="txTaxRate"><option value="10">10%</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
+      <div class="fg"><label>消費税率</label><select id="txTaxRate"><option value="10">10%</option><option value="10-80">10%・控除80%（インボイスなし〜2026/9）</option><option value="10-50">10%・控除50%（インボイスなし2026/10〜）</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
       <div class="fg"><label>支払方法</label><select id="txPay"><option value="b_cash">現金</option><option value="b_bank">普通預金</option><option value="b_cc">クレジットカード</option><option value="b_ap">買掛金</option><option value="b_unpaid">未払金</option><option value="b_ar">売掛金</option></select></div>
       <div class="fg"><label>&nbsp;</label><button class="btn btn-primary" id="addTxBtn">追加</button></div>
     </div>
@@ -814,13 +814,13 @@ tr.jumprow:hover td{background:#f5f8ff;}
 
   <div class="form-card print-hide">
     <div class="form-title">現金取引の入力（自動で現金扱いになります）</div>
-    <div class="form-row" style="grid-template-columns:112px 96px 1fr 1fr 100px 82px 70px">
+    <div class="form-row" style="grid-template-columns:112px 96px 1fr 1fr 100px 128px 70px">
       <div class="fg"><label>日付</label><input type="date" id="cbDate"></div>
       <div class="fg"><label>種別</label><select id="cbType"><option value="expense">出金</option><option value="income">入金</option></select></div>
       <div class="fg"><label>勘定科目</label><select id="cbCategory"></select></div>
       <div class="fg"><label>摘要</label><input type="text" id="cbNote" placeholder="例：文房具購入"></div>
       <div class="fg"><label>税込金額（円）</label><input type="number" id="cbAmount" placeholder="0" min="0"></div>
-      <div class="fg"><label>消費税率</label><select id="cbTaxRate"><option value="10">10%</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
+      <div class="fg"><label>消費税率</label><select id="cbTaxRate"><option value="10">10%</option><option value="10-80">10%・控除80%（インボイスなし〜2026/9）</option><option value="10-50">10%・控除50%（インボイスなし2026/10〜）</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
       <div class="fg"><label>&nbsp;</label><button class="btn btn-primary" id="addCashBtn">追加</button></div>
     </div>
   </div>
@@ -979,7 +979,7 @@ tr.jumprow:hover td{background:#f5f8ff;}
         <div class="fg"><label>借方科目</label><select id="jDebitAcc"></select></div>
         <div class="fg" id="jDebitSubWrap" style="display:none"><label>補助科目</label><select id="jDebitSub"></select></div>
         <div class="fg"><label>金額（税込）</label><input type="number" id="jDebitAmt" placeholder="0" min="0"></div>
-        <div class="fg"><label>消費税率</label><select id="jTaxRate"><option value="10">10%</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
+        <div class="fg"><label>消費税率</label><select id="jTaxRate"><option value="10">10%</option><option value="10-80">10%・控除80%（インボイスなし〜2026/9）</option><option value="10-50">10%・控除50%（インボイスなし2026/10〜）</option><option value="8">軽減8%</option><option value="0">非課税</option></select></div>
       </div>
       <div class="jside"><div class="jside-title jside-c">貸方（Credit）</div>
         <div class="fg"><label>貸方科目</label><select id="jCreditAcc"></select></div>
@@ -1417,9 +1417,9 @@ function jLines(j) {
   }
   var rate = (j && j.rate !== undefined) ? j.rate : 10;
   return {
-    d: [{ acc: j.dAcc, sub: j.dSub || '', amt: j.dAmt || 0, rate: rate,
+    d: [{ acc: j.dAcc, sub: j.dSub || '', amt: j.dAmt || 0, rate: rate, ded: j.ded,
           excl: (j.dExcl !== undefined ? j.dExcl : j.dAmt), tax: (j.dTax || 0) }],
-    c: [{ acc: j.cAcc, sub: j.cSub || '', amt: j.cAmt || 0, rate: rate }]
+    c: [{ acc: j.cAcc, sub: j.cSub || '', amt: j.cAmt || 0, rate: rate, ded: j.ded }]
   };
 }
 function jSum(arr) {
@@ -1443,20 +1443,21 @@ function journalsToTx(y) {
       var cat = state.categories.find(function(c){ return c.id === ln.acc; });
       if (!cat || !(ln.amt > 0)) return;
       var rate = (ln.rate !== undefined) ? ln.rate : 10;
-      var t = calcTax(ln.amt, rate);
+      var t = calcTax(ln.amt, rate, ln.ded);
       result.push({ id:'j_'+j.id+'_d'+i, date:j.date, type:cat.type, catId:ln.acc,
         subCatId: ln.sub||'', subCatName: subNameOf(ln.acc, ln.sub),
-        note:j.memo||'', amount:ln.amt, taxRate:rate,
+        note:j.memo||'', amount:ln.amt, taxRate:rate, ded:ln.ded,
         excl:(ln.excl !== undefined ? ln.excl : t.excl), tax:(ln.tax !== undefined ? ln.tax : t.tax) });
     });
     L.c.forEach(function(ln, i) {
       var cat = state.categories.find(function(c){ return c.id === ln.acc; });
       if (!cat || !(ln.amt > 0)) return;
       var rate = (ln.rate !== undefined) ? ln.rate : 10;
-      var t = calcTax(ln.amt, rate);
+      var t = calcTax(ln.amt, rate, ln.ded);
       result.push({ id:'j_'+j.id+'_c'+i, date:j.date, type:cat.type, catId:ln.acc,
         subCatId: ln.sub||'', subCatName: subNameOf(ln.acc, ln.sub),
-        note:j.memo||'', amount:ln.amt, taxRate:rate, excl:t.excl, tax:t.tax });
+        note:j.memo||'', amount:ln.amt, taxRate:rate, ded:ln.ded,
+        excl:(ln.excl !== undefined ? ln.excl : t.excl), tax:(ln.tax !== undefined ? ln.tax : t.tax) });
     });
   });
   return result;
@@ -1469,11 +1470,41 @@ function allTxOfYear(y) {
   if (!Array.isArray(jtxs)) jtxs = [];
   return txs.concat(jtxs);
 }
-function calcTax(amount, rate) {
+function calcTax(amount, rate, ded) {
   if (rate === 0) return { excl: amount, tax: 0 };
   var excl = Math.round(amount / (1 + rate / 100));
-  return { excl: excl, tax: amount - excl };
+  var tax = amount - excl;
+  if (ded && ded < 100) {
+    // インボイス（登録番号）がない仕入の経過措置：消費税のうち控除できる割合だけを消費税にする（1円未満切り捨て）
+    tax = Math.floor(amount * rate * ded / ((100 + rate) * 100));
+    excl = amount - tax;
+  }
+  return { excl: excl, tax: tax };
 }
+// 税率の選択値（'10' '10-80' '10-50' '8' '0'）⇔ 税率＋控除割合
+function parseRateSel(v) {
+  var m = String(v === undefined || v === null ? '' : v).trim().match(/^(\d+)\s*-\s*(\d+)$/);
+  if (m) {
+    var r1 = parseInt(m[1]), d1 = parseInt(m[2]);
+    if (r1 === 10 && (d1 === 80 || d1 === 50)) return { rate: 10, ded: d1 };
+    return { rate: 10, ded: 100 };
+  }
+  var r = parseInt(v);
+  if ([0, 8, 10].indexOf(r) === -1) r = 10;
+  return { rate: r, ded: 100 };
+}
+function dedOf(o) { return (o && o.ded && o.ded < 100) ? o.ded : 100; }
+function rateSelVal(rate, ded) {
+  rate = (rate === undefined || rate === null) ? 10 : rate;
+  return (rate === 10 && ded && ded < 100) ? ('10-' + ded) : String(rate);
+}
+function rateLabel(rate, ded) {
+  rate = (rate === undefined || rate === null) ? 10 : rate;
+  if (rate === 0) return '非課税';
+  if (rate === 8) return '軽減8%';
+  return (ded && ded < 100) ? ('10%・控除' + ded + '%') : '10%';
+}
+function withDed(o, ded) { if (ded && ded < 100) o.ded = ded; else delete o.ded; return o; }
 
 // ── 税込／税抜 表示切替（全ページ共通・この端末に記憶）──
 var TAXVIEW_KEY = 'kaikei_taxview';
@@ -1866,14 +1897,14 @@ function updateCatSelect() {
 
 function updateTxPreview() {
   var amt = parseInt(document.getElementById('txAmount').value) || 0;
-  var rate = parseInt(document.getElementById('txTaxRate').value);
+  var _p = parseRateSel(document.getElementById('txTaxRate').value), rate = _p.rate;
   var prev = document.getElementById('txPreview');
   if (amt <= 0) { prev.textContent = '金額を入力すると税額を表示します'; return; }
-  var r = calcTax(amt, rate);
+  var r = calcTax(amt, rate, _p.ded);
   if (rate === 0) {
     prev.textContent = '非課税 — 税抜: ' + fmt(r.excl) + ' / 消費税: ¥0';
   } else {
-    prev.textContent = '税抜: ' + fmt(r.excl) + ' ／ 消費税(' + rate + '%): ' + fmt(r.tax) + ' ／ 税込: ' + fmt(amt);
+    prev.textContent = '税抜: ' + fmt(r.excl) + ' ／ 消費税(' + rateLabel(rate, _p.ded) + '): ' + fmt(r.tax) + ' ／ 税込: ' + fmt(amt);
   }
 }
 
@@ -1883,13 +1914,13 @@ function addTransaction() {
   var catId = document.getElementById('txCategory').value;
   var note = document.getElementById('txNote').value.trim();
   var amount = parseInt(document.getElementById('txAmount').value);
-  var taxRate = parseInt(document.getElementById('txTaxRate').value);
+  var _p = parseRateSel(document.getElementById('txTaxRate').value), taxRate = _p.rate;
   var payEl = document.getElementById('txPay');
   var payAcc = payEl ? payEl.value : 'b_bank';
   var pay = (payAcc === 'b_cash') ? 'cash' : 'other';
   if (!date || !catId || isNaN(amount) || amount <= 0) { alert('日付・科目・金額を入力してください。'); return; }
-  var r = calcTax(amount, taxRate);
-  pushTx({ id: uid(), date: date, type: type, catId: catId, note: note, amount: amount, taxRate: taxRate, excl: r.excl, tax: r.tax, pay: pay, payAcc: payAcc });
+  var r = calcTax(amount, taxRate, _p.ded);
+  pushTx(withDed({ id: uid(), date: date, type: type, catId: catId, note: note, amount: amount, taxRate: taxRate, excl: r.excl, tax: r.tax, pay: pay, payAcc: payAcc }, _p.ded));
   state.transactions.sort(function(a, b) { return b.date.localeCompare(a.date); });
   saveToFb().then(function() { renderAll(); });
   document.getElementById('txNote').value = '';
@@ -2174,7 +2205,7 @@ function renderTransactions() {
   txs.forEach(function(t) {
     var cat = catById(t.catId);
     var rate = t.taxRate !== undefined ? t.taxRate : 10;
-    var rateBadge = rate === 0 ? '非課税' : (rate === 8 ? '<span class="badge badge-8">軽減8%</span>' : '<span class="badge badge-10">10%</span>');
+    var rateBadge = rate === 0 ? '非課税' : (rate === 8 ? '<span class="badge badge-8">軽減8%</span>' : '<span class="badge badge-10">' + rateLabel(rate, t.ded) + '</span>');
     var tr = document.createElement('tr');
     tr.id = 'txrow_' + t.id;
     var jOf = journalOfTx(t.id);
@@ -2269,7 +2300,7 @@ function renderLedger_inner(txs) {
         amtCells = '<td class="td-amount col-incl ' + cl + '">' + sg + fmt(t.amount) + '</td>'
           + '<td class="td-amount col-excl ' + cl + '">' + sg + fmt(t.excl !== undefined ? t.excl : t.amount) + '</td>'
           + '<td class="td-num" style="color:var(--yellow)">' + fmt(t.tax||0) + '</td>'
-          + '<td><span class="badge ' + (r===8?'badge-8':r===10?'badge-10':'') + '">' + (r===0?'非課税':r+'%') + '</span></td>';
+          + '<td><span class="badge ' + (r===8?'badge-8':r===10?'badge-10':'') + '">' + rateLabel(r, t.ded) + '</span></td>';
       } else {
         var cr = isCr(t);
         amtCells = '<td class="td-amount"><span class="bslbl" style="' + (cr ? 'background:var(--red-lt);color:var(--red)' : 'background:var(--accent-lt);color:var(--accent)') + '">' + (cr ? '貸' : '借') + '</span>' + fmt(t.amount) + '</td>'
@@ -2530,13 +2561,14 @@ function renderTax() {
 
   function rateDetail(arr, el) {
     el.innerHTML = '';
-    [10,8,0].forEach(function(r) {
-      var sub = arr.filter(function(t) { return (t.taxRate !== undefined ? t.taxRate : 10) === r; });
+    ['10','10-80','10-50','8','0'].forEach(function(key) {
+      var sub = arr.filter(function(t) { return rateSelVal(t.taxRate !== undefined ? t.taxRate : 10, t.ded) === key; });
       if (!sub.length) return;
+      var kp = parseRateSel(key), r = kp.rate;
       var tot = vSum(sub);
       var tax = sub.reduce(function(s,t) { return s+(t.tax||0); }, 0);
       var row = document.createElement('div'); row.className = 'tax-row';
-      row.innerHTML = '<span class="tax-row-label">' + (r===0?'非課税':r===8?'軽減8%':'標準10%') + '（' + sub.length + '件）</span>'
+      row.innerHTML = '<span class="tax-row-label">' + (r===0?'非課税':r===8?'軽減8%':(kp.ded<100?'標準10%・控除'+kp.ded+'%（インボイスなし）':'標準10%')) + '（' + sub.length + '件）</span>'
         + '<span class="tax-row-value">' + fmt(tot) + '<br><span style="font-size:11px;color:var(--yellow)">' + (isExcl() ? '別に消費税 ' : 'うち消費税 ') + fmt(tax) + '</span></span>';
       el.appendChild(row);
     });
@@ -2778,8 +2810,8 @@ function backupCSV() {
   var rows = [['#帳簿アシストCSVバックアップ v2']];
   rows.push(['#categories']); rows.push(['id','name','type','icon','subCategories']);
   state.categories.forEach(function(c) { rows.push([c.id, c.name, c.type, c.icon, JSON.stringify(c.subCategories||[])]); });
-  rows.push(['#transactions']); rows.push(['id','date','type','catId','note','amount','taxRate','excl','tax','subCatId','subCatName']);
-  state.transactions.forEach(function(t) { rows.push([t.id, t.date, t.type, t.catId, t.note||'', t.amount, t.taxRate!==undefined?t.taxRate:10, t.excl!==undefined?t.excl:t.amount, t.tax||0, t.subCatId||'', t.subCatName||'']); });
+  rows.push(['#transactions']); rows.push(['id','date','type','catId','note','amount','taxRate','excl','tax','subCatId','subCatName','ded']);
+  state.transactions.forEach(function(t) { rows.push([t.id, t.date, t.type, t.catId, t.note||'', t.amount, t.taxRate!==undefined?t.taxRate:10, t.excl!==undefined?t.excl:t.amount, t.tax||0, t.subCatId||'', t.subCatName||'', dedOf(t)<100?dedOf(t):'']); });
   rows.push(['#end']);
   dlCSV('帳簿アシスト_CSVバックアップ_' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '.csv', rows);
   showExportMsg('✅ ExcelバックアップCSVを保存しました。');
@@ -2804,7 +2836,7 @@ function restoreCSV(e) {
           var sc = []; try { if (cols[4]) sc = JSON.parse(cols[4]); } catch(ex) {}
           newCats.push({ id:cols[0], name:cols[1], type:cols[2], icon:cols[3], subCategories:sc });
         } else if (mode === 'tx' && cols.length >= 9) {
-          newTxs.push({ id:cols[0], date:cols[1], type:cols[2], catId:cols[3], note:cols[4], amount:parseInt(cols[5])||0, taxRate:parseInt(cols[6])||10, excl:parseInt(cols[7])||0, tax:parseInt(cols[8])||0, subCatId:cols[9]||'', subCatName:cols[10]||'' });
+          newTxs.push({ id:cols[0], date:cols[1], type:cols[2], catId:cols[3], note:cols[4], amount:parseInt(cols[5])||0, taxRate:(isNaN(parseInt(cols[6]))?10:parseInt(cols[6])), excl:parseInt(cols[7])||0, tax:parseInt(cols[8])||0, subCatId:cols[9]||'', subCatName:cols[10]||'', ded:(parseInt(cols[11])>0&&parseInt(cols[11])<100)?parseInt(cols[11]):undefined });
         }
       }
       if (!newCats.length && !newTxs.length) throw new Error('データが読み取れませんでした。');
@@ -2823,7 +2855,7 @@ function exportTxCSV() {
   var rows = [['帳簿アシスト 取引一覧', state.year+'年度'], [], ['日付','種別','勘定科目','補助科目','摘要','税込金額','税抜金額','消費税','消費税率']];
   txs.forEach(function(t) {
     var cat = catById(t.catId); var rate = t.taxRate !== undefined ? t.taxRate : 10;
-    rows.push([t.date, t.type==='income'?'収入':'支出', cat.name, t.subCatName||'', t.note||'', t.amount, t.excl!==undefined?t.excl:t.amount, t.tax||0, rate===0?'非課税':rate+'%']);
+    rows.push([t.date, t.type==='income'?'収入':'支出', cat.name, t.subCatName||'', t.note||'', t.amount, t.excl!==undefined?t.excl:t.amount, t.tax||0, rateLabel(rate, t.ded)]);
   });
   rows.push([]); var tI = txs.filter(function(t){return t.type==='income';}).reduce(function(s,t){return s+t.amount;},0);
   var tE = txs.filter(function(t){return t.type==='expense';}).reduce(function(s,t){return s+t.amount;},0);
@@ -3116,11 +3148,11 @@ function isBsTransfer(dAcc, cAcc) {
 }
 function jPreviewUpdate() {
   var amt=parseInt(document.getElementById('jDebitAmt').value)||0;
-  var rate=parseInt(document.getElementById('jTaxRate').value);
+  var _p=parseRateSel(document.getElementById('jTaxRate').value), rate=_p.rate, ded=_p.ded;
   var dAcc=(document.getElementById('jDebitAcc')||{}).value;
   var cAcc=(document.getElementById('jCreditAcc')||{}).value;
   var auto=isBsTransfer(dAcc,cAcc);
-  if(auto) rate=0;
+  if(auto){ rate=0; ded=100; }
   var prev=document.getElementById('jPreview');
   if(!amt){
     prev.textContent=auto
@@ -3129,10 +3161,10 @@ function jPreviewUpdate() {
     document.getElementById('jCreditAmt').value=amt||'';
     return;
   }
-  var r=calcTax(amt,rate);
+  var r=calcTax(amt,rate,ded);
   prev.textContent=rate===0
     ?((auto?'BS科目どうしの振替（自動で非課税） — ':'非課税 — ')+'税抜:'+fmt(r.excl)+' / 消費税:¥0')
-    :('税抜:'+fmt(r.excl)+' / 消費税('+rate+'%):'+fmt(r.tax)+' / 税込:'+fmt(amt));
+    :('税抜:'+fmt(r.excl)+' / 消費税('+rateLabel(rate,ded)+'):'+fmt(r.tax)+' / 税込:'+fmt(amt));
   document.getElementById('jCreditAmt').value=amt;
 }
 function addJournal() {
@@ -3140,7 +3172,7 @@ function addJournal() {
   var memo=document.getElementById('jMemo').value.trim();
   var dAcc=document.getElementById('jDebitAcc').value;
   var dAmt=parseInt(document.getElementById('jDebitAmt').value);
-  var rate=parseInt(document.getElementById('jTaxRate').value);
+  var _p=parseRateSel(document.getElementById('jTaxRate').value), rate=_p.rate, ded=_p.ded;
   var cAcc=document.getElementById('jCreditAcc').value;
   var cAmt=parseInt(document.getElementById('jCreditAmt').value)||dAmt;
   if(!date||!dAcc||!cAcc||isNaN(dAmt)||dAmt<=0){alert('\u65e5\u4ed8\u30fb\u501f\u65b9\u79d1\u76ee\u30fb\u91d1\u984d\u30fb\u8cb8\u65b9\u79d1\u76ee\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044\u3002');return;}
@@ -3148,12 +3180,12 @@ function addJournal() {
   var _dT=(state.categories.find(function(c){return c.id===dAcc;})||{}).type;
   var _cT=(state.categories.find(function(c){return c.id===cAcc;})||{}).type;
   var _isPL=function(t){return t==='income'||t==='expense';};
-  if(!_isPL(_dT)&&!_isPL(_cT)) rate=0;
-  var r=calcTax(dAmt,rate);
+  if(!_isPL(_dT)&&!_isPL(_cT)){ rate=0; ded=100; }
+  var r=calcTax(dAmt,rate,ded);
   if(!state.journals)state.journals=[];
   var dSub=(document.getElementById('jDebitSub')||{}).value||'';
   var cSub=(document.getElementById('jCreditSub')||{}).value||'';
-  state.journals.push({id:uid(),date:date,memo:memo,dAcc:dAcc,dSub:dSub,dAmt:dAmt,dExcl:r.excl,dTax:r.tax,rate:rate,cAcc:cAcc,cSub:cSub,cAmt:cAmt,src:'manual'});
+  state.journals.push(withDed({id:uid(),date:date,memo:memo,dAcc:dAcc,dSub:dSub,dAmt:dAmt,dExcl:r.excl,dTax:r.tax,rate:rate,cAcc:cAcc,cSub:cSub,cAmt:cAmt,src:'manual'},ded));
   state.journals.sort(function(a,b){return b.date.localeCompare(a.date);});
   saveToFb().then(function(){renderAll();});
   document.getElementById('jMemo').value='';
@@ -3179,11 +3211,12 @@ function makeJournalFromTx(t){
   var _c=catById(t.catId);
   var isShiire=!!_c&&['\u4ed5\u5165\u9ad8','\u5916\u6ce8\u52a0\u5de5\u8cbb','\u6750\u6599\u8cbb\u30fb\u8cc7\u6750\u8cbb'].indexOf(_c.name)>=0;
   var rate=t.taxRate!==undefined?t.taxRate:10;
-  var r=calcTax(t.amount,rate);
+  var r=calcTax(t.amount,rate,dedOf(t));
   var acc=t.payAcc||(isCash?'b_cash':(t.type==='expense'&&isShiire?'b_ap':'b_bank'));
   var j={id:uid(),date:t.date,memo:t.note||_c.name,rate:rate,dExcl:r.excl,dTax:r.tax,src:'auto',srcId:t.id};
   if(t.type==='expense'){j.dAcc=t.catId;j.dAmt=t.amount;j.cAcc=acc;j.cAmt=t.amount;}
   else{j.dAcc=acc;j.dAmt=t.amount;j.cAcc=t.catId;j.cAmt=t.amount;}
+  withDed(j,dedOf(t));
   return j;
 }
 function syncJournalOfTx(t){
@@ -3251,11 +3284,11 @@ function renderJournal() {
     var cmp=isCompound(j);
     var sideHtml=function(lines, cls) {
       return lines.map(function(ln) {
-        var t = (ln.tax !== undefined ? ln.tax : calcTax(ln.amt, (ln.rate !== undefined ? ln.rate : 10)).tax);
+        var t = (ln.tax !== undefined ? ln.tax : calcTax(ln.amt, (ln.rate !== undefined ? ln.rate : 10), ln.ded).tax);
         var lc = state.categories.find(function(x){ return x.id === ln.acc; });
         // 税抜表示：収益・費用の行は税抜にして、消費税を「仮払消費税／仮受消費税」の行に分けて見せる
         var split = isExcl() && lc && isPLType(lc.type) && t;
-        var tn = (!isExcl() && cls === 'jamt-d' && t) ? ('<span class="jtax"> 税' + fmt(t) + '</span>') : '';
+        var tn = (!isExcl() && cls === 'jamt-d' && t) ? ('<span class="jtax"> 税' + fmt(t) + (dedOf(ln) < 100 ? '（控除' + dedOf(ln) + '%）' : '') + '</span>') : '';
         var sn = subNameOf(ln.acc, ln.sub);
         return '<div style="display:flex;align-items:center;gap:6px;width:100%">'
           + '<span class="jacc" onclick="jumpToLedger(\'' + ln.acc + '\')" title="クリックで総勘定元帳へ" style="cursor:pointer">' + jName(ln.acc) + '</span>'
@@ -3371,7 +3404,7 @@ function renderTrial() {
     var lc=state.categories.find(function(x){return x.id===ln.acc;});
     if(!lc||!isPLType(lc.type))return null;
     var rt=(ln.rate!==undefined?ln.rate:10);
-    var tx=(ln.tax!==undefined?ln.tax:calcTax(parseInt(ln.amt)||0,rt).tax)||0;
+    var tx=(ln.tax!==undefined?ln.tax:calcTax(parseInt(ln.amt)||0,rt,ln.ded).tax)||0;
     if(!tx)return null;
     ensure(VT[lc.type].id); accs[VT[lc.type].id].name=VT[lc.type].name;
     return {t:tx,id:VT[lc.type].id};
@@ -3731,8 +3764,8 @@ function onCsvFileSelected(e) {
         var catName = cols[2];
         var note = cols[3] || '';
         var amount = parseInt(String(cols[4]).replace(/[^\d]/g,'')) || 0;
-        var taxRate = parseInt(cols[5]) || 10;
-        if (![0,8,10].includes(taxRate)) taxRate = 10;
+        var _rp = parseRateSel(cols[5] === undefined || cols[5] === '' ? '10' : cols[5]);
+        var taxRate = _rp.rate, ded = _rp.ded;
 
         // 科目マッチング
         var cat = state.categories.find(function(c){
@@ -3745,9 +3778,9 @@ function onCsvFileSelected(e) {
 
         if (amount <= 0) { skipped++; return; }
 
-        var r = calcTax(amount, taxRate);
+        var r = calcTax(amount, taxRate, ded);
         csvImportRows.push({
-          date: date, type: type, catId: cat ? cat.id : '',
+          date: date, type: type, catId: cat ? cat.id : '', ded: ded,
           catName: cat ? cat.name : catName + '(\u672a\u4e00\u81f4)',
           note: note, amount: amount, taxRate: taxRate,
           excl: r.excl, tax: r.tax,
@@ -3777,7 +3810,7 @@ function onCsvFileSelected(e) {
             + '<td style="padding:5px 10px;font-size:11px' + (!r.matched?';color:var(--red)':'') + '">' + r.catName + '</td>'
             + '<td style="padding:5px 10px;font-size:11px">' + r.note + '</td>'
             + '<td style="padding:5px 10px;text-align:right;font-family:monospace">' + fmt(r.amount) + '</td>'
-            + '<td style="padding:5px 10px;text-align:center">' + (r.taxRate===0?'\u975e\u8ab2\u7a0e':r.taxRate+'%') + '</td></tr>';
+            + '<td style="padding:5px 10px;text-align:center">' + rateLabel(r.taxRate, r.ded) + '</td></tr>';
         }).join('') + '</tbody>';
 
       var unmatched = csvImportRows.filter(function(r){return !r.matched;}).length;
@@ -3804,7 +3837,7 @@ function execCsvImport() {
     pushTx({
       id: uid(), date: r.date, type: r.type, catId: r.catId,
       note: r.note, amount: r.amount, taxRate: r.taxRate,
-      excl: r.excl, tax: r.tax
+      excl: r.excl, tax: r.tax, ded: (r.ded && r.ded < 100) ? r.ded : undefined
     });
     added++;
   });
@@ -3863,12 +3896,13 @@ function renderCmpLines(side) {
 
     var rt = document.createElement('select');
     rt.style.cssText = 'padding:6px 4px;border:1px solid var(--rule);border-radius:6px;font-family:inherit;font-size:11px;outline:none;min-width:0';
-    [[10,'10%'],[8,'\u8efd8%'],[0,'\u975e\u8ab2']].forEach(function(o){
+    [['10','10%'],['10-80','10%控80'],['10-50','10%控50'],['8','軽8%'],['0','非課']].forEach(function(o){
       var op=document.createElement('option'); op.value=o[0]; op.textContent=o[1];
-      if (parseInt(ln.rate) === o[0]) op.selected = true;
+      if (rateSelVal(ln.rate === undefined || ln.rate === '' ? 10 : parseInt(ln.rate), ln.ded) === o[0]) op.selected = true;
       rt.appendChild(op);
     });
-    rt.addEventListener('change', function(){ ln.rate = parseInt(rt.value); });
+    rt.title = '控80・控50＝インボイス（登録番号）なしの経過措置（控除80%・50%）';
+    rt.addEventListener('change', function(){ var p = parseRateSel(rt.value); ln.rate = p.rate; ln.ded = p.ded; });
 
     var del = document.createElement('button');
     del.className = 'btn btn-danger btn-sm'; del.textContent = '\u00d7';
@@ -3912,9 +3946,10 @@ function saveCmpJournal() {
     return arr.filter(function(x){ return x.acc && (parseInt(x.amt)||0) > 0; })
       .map(function(x) {
         var rate = parseInt(x.rate); if ([0,8,10].indexOf(rate) === -1) rate = 10;
+        var ded = (rate === 10) ? dedOf(x) : 100;
         var amt = parseInt(x.amt);
-        var t = calcTax(amt, rate);
-        return { acc:x.acc, sub:x.sub||'', amt:amt, rate:rate, excl:t.excl, tax:t.tax };
+        var t = calcTax(amt, rate, ded);
+        return withDed({ acc:x.acc, sub:x.sub||'', amt:amt, rate:rate, excl:t.excl, tax:t.tax }, ded);
       });
   };
   var dl = clean(cmpD), cl = clean(cmpC);
@@ -4009,8 +4044,8 @@ function onJCsvFileSelected(e) {
         var dName = cols[1], cName = cols[2];
         var dSubName = (cols[6] || '').trim(), cSubName = (cols[7] || '').trim();
         var amount = parseInt(String(cols[3]).replace(/[^\d]/g,'')) || 0;
-        var rate = parseInt(cols[4]);
-        if ([0,8,10].indexOf(rate) === -1) rate = 10;
+        var _rp = parseRateSel(cols[4]);
+        var rate = _rp.rate, ded = _rp.ded;
         var memo = cols[5] || '';
 
         var dCat = findAccByName(dName);
@@ -4021,7 +4056,7 @@ function onJCsvFileSelected(e) {
         if (!cCat) err.push('\u8cb8\u65b9\u79d1\u76ee');
         if (amount <= 0) err.push('\u91d1\u984d');
 
-        if (dCat && cCat && isBsTransfer(dCat.id, cCat.id)) rate = 0;
+        if (dCat && cCat && isBsTransfer(dCat.id, cCat.id)) { rate = 0; ded = 100; }
 
         var dSub = '', cSub = '';
         if (dSubName && dCat) {
@@ -4037,7 +4072,7 @@ function onJCsvFileSelected(e) {
           line: idx + 1, date: date,
           dAcc: dCat ? dCat.id : '', dName: dCat ? dCat.name : dName, dSub: dSub, dSubName: dSubName,
           cAcc: cCat ? cCat.id : '', cName: cCat ? cCat.name : cName, cSub: cSub, cSubName: cSubName,
-          amount: amount, rate: rate, memo: memo,
+          amount: amount, rate: rate, ded: ded, memo: memo,
           err: err
         });
       });
@@ -4081,7 +4116,7 @@ function onJCsvFileSelected(e) {
             + '<td style="padding:4px 8px;font-size:11px' + (r.cAcc?'':';color:var(--red);font-weight:700') + '">' + r.cName
             + (r.cSubName ? '<span style="color:var(--ink-soft)"> \u203a ' + r.cSubName + '</span>' : '') + '</td>'
             + '<td style="padding:4px 8px;text-align:right;font-family:monospace">' + fmt(r.amount) + '</td>'
-            + '<td style="padding:4px 8px;text-align:center;font-size:11px">' + (r.rate===0?'\u975e\u8ab2\u7a0e':r.rate+'%') + '</td>'
+            + '<td style="padding:4px 8px;text-align:center;font-size:11px">' + rateLabel(r.rate, r.ded) + '</td>'
             + '<td style="padding:4px 8px;font-size:11px;color:var(--ink-soft)">' + (r.memo||'\u2014') + '</td></tr>';
         }).join('') + '</tbody>';
 
@@ -4119,12 +4154,12 @@ function execJCsvImport() {
   if (!state.journals) state.journals = [];
   var added = 0;
   jCsvRows.forEach(function(r) {
-    var t = calcTax(r.amount, r.rate);
-    state.journals.push({
+    var t = calcTax(r.amount, r.rate, r.ded);
+    state.journals.push(withDed({
       id: uid(), date: r.date, memo: r.memo,
       dAcc: r.dAcc, dSub: r.dSub||'', dAmt: r.amount, dExcl: t.excl, dTax: t.tax, rate: r.rate,
       cAcc: r.cAcc, cSub: r.cSub||'', cAmt: r.amount, src: 'csv'
-    });
+    }, r.ded));
     added++;
   });
   state.journals.sort(function(a,b){ return b.date.localeCompare(a.date); });
@@ -4467,7 +4502,7 @@ function openTxEdit(id) {
   document.getElementById('txEditType').value = t.type;
   document.getElementById('txEditNote').value = t.note || '';
   document.getElementById('txEditAmount').value = t.amount;
-  document.getElementById('txEditTaxRate').value = t.taxRate !== undefined ? t.taxRate : 10;
+  document.getElementById('txEditTaxRate').value = rateSelVal(t.taxRate !== undefined ? t.taxRate : 10, t.ded);
   document.getElementById('txEditPay').value = t.payAcc || (t.pay === 'cash' ? 'b_cash' : 'b_bank');
   // 科目セレクト更新
   var sel = document.getElementById('txEditCategory');
@@ -4490,16 +4525,17 @@ function saveTxEdit() {
   var catId = document.getElementById('txEditCategory').value;
   var note = document.getElementById('txEditNote').value.trim();
   var amount = parseInt(document.getElementById('txEditAmount').value);
-  var taxRate = parseInt(document.getElementById('txEditTaxRate').value);
+  var _p = parseRateSel(document.getElementById('txEditTaxRate').value), taxRate = _p.rate;
   if (!date || !catId || isNaN(amount) || amount <= 0) {
     document.getElementById('txEditMsg').textContent = '日付・科目・金額を入力してください。';
     document.getElementById('txEditMsg').className = 'modal-msg err';
     return;
   }
-  var r = calcTax(amount, taxRate);
+  var r = calcTax(amount, taxRate, _p.ded);
   t.date = date; t.type = type; t.catId = catId;
   t.note = note; t.amount = amount; t.taxRate = taxRate;
   t.excl = r.excl; t.tax = r.tax;
+  withDed(t, _p.ded);
   t.payAcc = document.getElementById('txEditPay').value;
   t.pay = (t.payAcc === 'b_cash') ? 'cash' : 'other';
   if (journalOfTx(t.id)) syncJournalOfTx(t);
@@ -4521,7 +4557,7 @@ function openJournalEdit(id) {
   document.getElementById('jEditMemo').value = j.memo || '';
   document.getElementById('jEditDebitAmt').value = j.dAmt;
   document.getElementById('jEditCreditAmt').value = j.cAmt;
-  document.getElementById('jEditTaxRate').value = j.rate !== undefined ? j.rate : 10;
+  document.getElementById('jEditTaxRate').value = rateSelVal(j.rate !== undefined ? j.rate : 10, j.ded);
   // 借方・貸方セレクト更新（全科目から選択可）
   fillAccSelect(document.getElementById('jEditDebitAcc'), j.dAcc);
   fillAccSelect(document.getElementById('jEditCreditAcc'), j.cAcc);
@@ -4538,7 +4574,7 @@ function saveJournalEdit() {
   var memo = document.getElementById('jEditMemo').value.trim();
   var dAcc = document.getElementById('jEditDebitAcc').value;
   var dAmt = parseInt(document.getElementById('jEditDebitAmt').value);
-  var rate = parseInt(document.getElementById('jEditTaxRate').value);
+  var _p = parseRateSel(document.getElementById('jEditTaxRate').value), rate = _p.rate;
   var cAcc = document.getElementById('jEditCreditAcc').value;
   var cAmt = parseInt(document.getElementById('jEditCreditAmt').value) || dAmt;
   if (!date || !dAcc || !cAcc || isNaN(dAmt) || dAmt <= 0) {
@@ -4546,9 +4582,10 @@ function saveJournalEdit() {
     document.getElementById('jEditMsg').className = 'modal-msg err';
     return;
   }
-  var r = calcTax(dAmt, rate);
+  var r = calcTax(dAmt, rate, _p.ded);
   j.date = date; j.memo = memo; j.dAcc = dAcc; j.dAmt = dAmt;
   j.dExcl = r.excl; j.dTax = r.tax; j.rate = rate;
+  withDed(j, _p.ded);
   j.cAcc = cAcc; j.cAmt = cAmt;
   j.dSub = (document.getElementById('jEditDebitSub')||{}).value || '';
   j.cSub = (document.getElementById('jEditCreditSub')||{}).value || '';
@@ -4628,10 +4665,10 @@ function addCashTx() {
   var catId = document.getElementById('cbCategory').value;
   var note = document.getElementById('cbNote').value.trim();
   var amount = parseInt(document.getElementById('cbAmount').value);
-  var taxRate = parseInt(document.getElementById('cbTaxRate').value);
+  var _p = parseRateSel(document.getElementById('cbTaxRate').value), taxRate = _p.rate;
   if (!date || !catId || isNaN(amount) || amount <= 0) { alert('日付・科目・金額を入力してください。'); return; }
-  var r = calcTax(amount, taxRate);
-  pushTx({ id: uid(), date: date, type: type, catId: catId, note: note, amount: amount, taxRate: taxRate, excl: r.excl, tax: r.tax, pay: 'cash', payAcc: 'b_cash' });
+  var r = calcTax(amount, taxRate, _p.ded);
+  pushTx(withDed({ id: uid(), date: date, type: type, catId: catId, note: note, amount: amount, taxRate: taxRate, excl: r.excl, tax: r.tax, pay: 'cash', payAcc: 'b_cash' }, _p.ded));
   state.transactions.sort(function(a, b) { return b.date.localeCompare(a.date); });
   saveToFb().then(function() { renderAll(); });
   document.getElementById('cbNote').value = '';
